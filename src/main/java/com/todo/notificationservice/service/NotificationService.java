@@ -2,9 +2,7 @@ package com.todo.notificationservice.service;
 
 import com.todo.notificationservice.model.Notification;
 import com.todo.notificationservice.repo.NotificationRepository;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +42,7 @@ public class NotificationService {
         notificationRepository.deleteById(id);
     }
 
-    public List<Notification> getDueWithinWeek() {
+    public List<Notification> getAlertsForUpcomingDeadlines() {
         LocalDateTime cutoff = LocalDateTime.now().plusDays(7);
         return notificationRepository.findByCreatedAtBefore(cutoff);
     }

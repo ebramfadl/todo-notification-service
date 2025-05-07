@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication(exclude = { // Add the exclude here
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 		HibernateJpaAutoConfiguration.class
 })
 @EnableMongoAuditing
+@EnableScheduling
 public class NotificationserviceApplication {
 
 	public static void main(String[] args) {
