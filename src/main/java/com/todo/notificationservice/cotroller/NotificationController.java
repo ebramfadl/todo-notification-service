@@ -46,4 +46,5 @@ public class NotificationController {
         notificationService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }
