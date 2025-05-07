@@ -37,7 +37,6 @@ public class Notification {
     @Field("createdAt")
     private LocalDateTime createdAt;
 
-    // Custom constructor
     public Notification(Long userId, String title, String message, NotificationType type) {
         this.userId = userId;
         this.title = title;
