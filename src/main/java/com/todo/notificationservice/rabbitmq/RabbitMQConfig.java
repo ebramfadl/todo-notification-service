@@ -18,6 +18,10 @@ public class RabbitMQConfig {
     public static final String TASK_EXCHANGE  = "task_exchange";
     public static final String TASK_ROUTING_KEY  = "task_routing_key";
 
+    public static final String BOARD_QUEUE = "board_queue";
+    public static final String BOARD_EXCHANGE  = "board_exchange";
+    public static final String BOARD_ROUTING_KEY  = "board_routing_key";
+
     @Bean
     public Queue userQueue() {
         return new Queue(USER_QUEUE);
@@ -52,5 +56,23 @@ public class RabbitMQConfig {
                 .bind(taskQueue)
                 .to(taskExchange)
                 .with(TASK_ROUTING_KEY);
+    }
+
+    @Bean
+    public Queue boardQueue() {
+        return new Queue(BOARD_QUEUE);
+    }
+
+    @Bean
+    public TopicExchange boardExchange() {
+        return new TopicExchange(BOARD_EXCHANGE);
+    }
+
+    @Bean
+    public Binding boardBinding(Queue boardQueue, TopicExchange boardExchange) {
+        return BindingBuilder
+                .bind(boardQueue)
+                .to(boardExchange)
+                .with(BOARD_ROUTING_KEY);
     }
 }

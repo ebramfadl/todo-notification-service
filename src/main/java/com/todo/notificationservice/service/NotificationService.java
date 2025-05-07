@@ -1,5 +1,6 @@
 package com.todo.notificationservice.service;
 
+import com.todo.notificationservice.dto.EmailMessage;
 import com.todo.notificationservice.repo.NotificationRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,10 +25,12 @@ public class NotificationService {
     }
 
     @RabbitListener(queues = RabbitMQConfig.USER_QUEUE)
-    public void receiveUserNotification(String message) {
-        emailSenderService.sendEmail("markmahrous012@gmail.com",
-                                     "User Notification",
-                                     message);
-        System.out.println("Received user notification: " + message);
+    public void receiveUserNotification(EmailMessage emailMessage) {
+        emailSenderService.sendEmail(
+                emailMessage.getToEmail(),
+                emailMessage.getSubject(),
+                emailMessage.getBody()
+        );
+        System.out.println("Received user notification: " + emailMessage);
     }
 }
