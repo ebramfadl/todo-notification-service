@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,7 +33,6 @@ public class NotificationService {
                 .orElseThrow(() -> new IllegalArgumentException("Notification not found"));
         existing.setTitle(updatedNotification.getTitle());
         existing.setMessage(updatedNotification.getMessage());
-        existing.setType(updatedNotification.getType());
         return notificationRepository.save(existing);
     }
 
@@ -42,8 +40,5 @@ public class NotificationService {
         notificationRepository.deleteById(id);
     }
 
-    public List<Notification> getAlertsForUpcomingDeadlines() {
-        LocalDateTime cutoff = LocalDateTime.now().plusDays(7);
-        return notificationRepository.findByCreatedAtBefore(cutoff);
-    }
+
 }
