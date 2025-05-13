@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserObserver {
+public class UserObserver implements Observer{
 
     private final EmailSenderService emailSenderService;
 
@@ -17,13 +17,18 @@ public class UserObserver {
         this.emailSenderService = emailSenderService;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.USER_QUEUE)
-    public void onUserCreated(EmailMessage emailMessage) {
+    @Override
+    public void update(EmailMessage emailMessage) {
         emailSenderService.sendEmail(
                 emailMessage.getToEmail(),
                 emailMessage.getSubject(),
                 emailMessage.getBody()
         );
-        System.out.println("UserObserver: Received user notification: " + emailMessage);
+        System.out.println("UserObserver: Updated with new message: " + emailMessage);
+    }
+
+    @RabbitListener(queues = RabbitMQConfig.USER_QUEUE)
+    public void onUserCreated(EmailMessage emailMessage) {
+        update(emailMessage);
     }
 }
