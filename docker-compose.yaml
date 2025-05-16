@@ -27,3 +27,13 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: secret
       ME_CONFIG_MONGODB_URL: mongodb://root:secret@mongo:27017/
       ME_CONFIG_BASICAUTH: false
+
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq-todo
+    ports:
+      - "5672:5672" # RabbitMQ protocol (AMQP)
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
