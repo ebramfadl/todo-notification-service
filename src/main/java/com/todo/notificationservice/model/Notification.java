@@ -19,7 +19,7 @@ public class Notification {
     @Id
     private String id;
     @NonNull
-    private Long userId;  // FK to Receiver
+    private String email;
     @NonNull
     private String title;
     @NonNull

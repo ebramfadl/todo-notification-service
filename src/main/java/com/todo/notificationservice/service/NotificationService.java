@@ -23,8 +23,8 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
-    public List<Notification> getNotificationsByUserId(Long userId) {
-        return notificationRepository.findByUserId(userId);
+    public List<Notification> getNotificationsByEmail(String email) {
+        return notificationRepository.findByEmail(email);
     }
 
     public Notification updateNotification(String notificationId, Notification updatedNotification) {

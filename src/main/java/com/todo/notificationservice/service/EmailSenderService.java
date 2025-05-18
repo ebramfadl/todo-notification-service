@@ -27,10 +27,29 @@ public class EmailSenderService {
         javaMailSender.send(message);
 
         Notification notification = new Notification();
-        notification.setUserId(1L);
+        notification.setEmail(toEmail);
         notification.setTitle(subject);
         notification.setMessage(body);
         notification.setType(NotificationType.INFO);
+        notificationService.createNotification(notification);
+
+        System.out.println("Email sent successfully to " + toEmail);
+    }
+
+    public void sendReminderEmail(String toEmail, String subject, String body) {
+        JavaMailSender javaMailSender = MailSenderSingleton.getInstance().getMailSender();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(body);
+
+        javaMailSender.send(message);
+
+        Notification notification = new Notification();
+        notification.setEmail(toEmail);
+        notification.setTitle(subject);
+        notification.setMessage(body);
+        notification.setType(NotificationType.REMINDER);
         notificationService.createNotification(notification);
 
         System.out.println("Email sent successfully to " + toEmail);
