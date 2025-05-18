@@ -23,7 +23,12 @@ public class NotificationController {
         return ResponseEntity.ok(notificationService.createNotification(notification));
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("all")
+    public ResponseEntity<List<Notification>> getNotifications() {
+        return ResponseEntity.ok(notificationService.getAllNotifications());
+    }
+
+    @GetMapping("/{email}")
     public ResponseEntity<List<Notification>> getNotificationsByEmail(@PathVariable String email) {
         return ResponseEntity.ok(notificationService.getNotificationsByEmail(email));
     }

@@ -1,5 +1,4 @@
 services:
-
   mongo:
     image: mongo
     restart: always
@@ -9,6 +8,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: secret
       MONGO_INITDB_DATABASE: notification
+
 
   mongo-express:
     image: mongo-express
@@ -35,14 +35,17 @@ services:
     build: .
     container_name: notification-service-1
     ports:
-      - "9089:8084"
+      - "8087:8087"
     environment:
+      - server.port=8087
       - spring.data.mongodb.uri=mongodb://root:secret@mongo:27017/notification?authSource=admin
       - spring.data.mongodb.database=notification
       - spring.rabbitmq.host=rabbitmq-todo
       - spring.rabbitmq.port=5672
       - spring.rabbitmq.username=guest
       - spring.rabbitmq.password=guest
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_HOSTNAME=eureka-server
       - Name=instance1
     depends_on:
       - mongo
@@ -52,14 +55,17 @@ services:
     build: .
     container_name: notification-service-2
     ports:
-      - "9088:8084"
+      - "8088:8088"
     environment:
+      - server.port=8088
       - spring.data.mongodb.uri=mongodb://root:secret@mongo:27017/notification?authSource=admin
       - spring.data.mongodb.database=notification
       - spring.rabbitmq.host=rabbitmq-todo
       - spring.rabbitmq.port=5672
       - spring.rabbitmq.username=guest
       - spring.rabbitmq.password=guest
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_HOSTNAME=eureka-server
       - Name=instance2
     depends_on:
       - mongo
@@ -69,9 +75,10 @@ services:
     image: nginx:latest
     container_name: nginx-load-balancer-notification
     ports:
-      - "8084:80"
+      - "18094:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - notification-service-1
       - notification-service-2
+

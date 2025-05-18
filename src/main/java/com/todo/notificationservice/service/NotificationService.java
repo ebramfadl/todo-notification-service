@@ -38,4 +38,8 @@ public class NotificationService {
     public void deleteNotification(String notificationId) {
         notificationRepository.deleteById(notificationId);
     }
+
+    public List<Notification> getAllNotifications() {
+        return notificationRepository.findAll();
+    }
 }
