@@ -31,4 +31,9 @@ public class UserObserver implements Observer{
     public void onUserCreated(EmailMessage emailMessage) {
         update(emailMessage);
     }
+
+    @RabbitListener(queues = RabbitMQConfig.BOARD_QUEUE)
+    public void onUserAddedToBoard(EmailMessage emailMessage) {
+        update(emailMessage);
+    }
 }
