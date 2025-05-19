@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: board-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: board-service
+  template:
+    metadata:
+      labels:
+        app: board-service
+    spec:
+      containers:
+        - name: board-service
+          image: ebramfadl/board-service
+          ports:
+            - containerPort: 8083
+          env:
+            - name: spring.datasource.url
+              value: jdbc:postgresql://postgres:5432/todo-board
+            - name: spring.datasource.username
+              value: postgres
+            - name: spring.datasource.password
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8761/eureka/
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: eureka-server
+            - name: spring.rabbitmq.host
+              value: rabbitmq
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: board-service
+spec:
+  selector:
+    app: board-service
+  ports:
+    - port: 8083
+      targetPort: 8083
+  type: ClusterIP
